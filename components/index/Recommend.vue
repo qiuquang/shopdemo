@@ -1,21 +1,9 @@
 <template>
 	<view class='recommend bg-color'>
-		
-		<view class='recommend-item'>
-			<image class='item-big' src="../../static/img/Children.jpg" mode=""></image>
+		<view v-for="(item,index) in dataList" :key="index" class='recommend-item'>
+			<image class='item-big' :src="item.bigUrl" mode=""></image>
 			<view class='item-small'>
-				<image class='item-img' src="../../static/img/Children1.jpg" mode=""></image>
-				<image class='item-img' src="../../static/img/Children2.jpg" mode=""></image>
-				<image class='item-img' src="../../static/img/Children3.jpg" mode=""></image>
-			</view>
-		</view>
-		
-		<view class='recommend-item'>
-			<image class='item-big' src="../../static/img/Furnishing.jpg" mode=""></image>
-			<view class='item-small'>
-				<image class='item-img' src="../../static/img/Furnishing1.jpg" mode=""></image>
-				<image class='item-img' src="../../static/img/Furnishing2.jpg" mode=""></image>
-				<image class='item-img' src="../../static/img/Furnishing3.jpg" mode=""></image>
+				<image v-for="(itemm,indexx) in item.data" class='item-img' :src="itemm.imgUrl" mode=""></image>
 			</view>
 		</view>
 		
@@ -23,6 +11,11 @@
 </template>
 
 <script>
+	export default {
+		props: {
+			dataList: Array
+		}
+	}
 </script>
 
 <style scoped>

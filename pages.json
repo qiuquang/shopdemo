@@ -5,7 +5,7 @@
 			"style": {
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTitleText": "百年奥莱",
-				"navigationStyle": "custom",// 取消默认的原生导航栏
+				// "navigationStyle": "custom",// 取消默认的原生导航栏
 				"app-plus": {
 					"scrollIndicator": "none", // 不显示滚动条
 					"titleNView":{

@@ -15,15 +15,24 @@
 		
 		<swiper  @change='onChangeTab' :current="topBarIndex" :style="'height:'+clentHeight+'px;'">
 			<swiper-item 
-				v-for='(item,index) in topBar'
+				v-for='(item,index) in newTopBar'
 				:key='index'
 			>
-				<view class='home-data'>
-					<IndexSwiper></IndexSwiper>
-					<Recommend></Recommend>
-					<Card cardTitle='猜你喜欢'></Card>
-					<CommodityList></CommodityList>
-				</view>
+				<scroll-view scroll-y="true" :style="'height:'+clentHeight+'px;'">
+					<template v-if="item.data.length>0"> 
+						<block v-for="(itemm,indexx) in item.data" :key="indexx">
+								<IndexSwiper v-if="itemm.type === 'swiperList'" :dataList="itemm.data"></IndexSwiper>
+								<template v-if="itemm.type === 'recommendList'">
+									<Recommend :dataList="itemm.data"></Recommend>
+									<Card cardTitle='猜你喜欢'></Card>
+								</template>
+								<CommodityList v-if="itemm.type === 'commodityList'" :dataList="itemm.data"></CommodityList>
+							</block>
+					</template>
+					<template v-else>
+						<view>暂无数据...</view>
+					</template>
+				</scroll-view>
 			</swiper-item>
 		</swiper>
 		
@@ -67,15 +76,9 @@
 				//内容块的高度值
 				clentHeight:0,
 				//顶栏数据
-				topBar:[
-					{name:'推荐'},
-					{name:'运动户外'},
-					{name:'服饰内衣'},
-					{name:'鞋靴箱包'},
-					{name:'美妆个护'},
-					{name:'家居数码'},
-					{name:'食品母婴'}
-				]
+				topBar:[],
+				// 承载数据
+				newTopBar: []
 			}
 		},
 		components:{
@@ -89,16 +92,46 @@
 			Shop
 		},
 		onLoad() {
-			
+			this.init()
 		},
 		onReady() {
-			let view = uni.createSelectorQuery().select(".home-data");
-			view.boundingClientRect(data => {
-			    this.clentHeight = data.height;
-			}).exec();
-			
+			// let view = uni.createSelectorQuery().select(".home-data");
+			// view.boundingClientRect(data => {
+			//     // this.clentHeight = data.height;
+			//     this.clentHeight = 2000;
+			// }).exec();
+			uni.getSystemInfo({
+				success: (res) => {
+				  this.clentHeight = res.windowHeight - uni.upx2px(80);
+				}
+			})
 		},
 		methods:{
+			init() {
+				uni.request({
+					url: 'http://192.168.0.100:3000/api/index_list/data',
+					success: (res) => {
+						const data = res.data.data;
+						this.topBar = data.topBar;
+						this.newTopBar = this.initData(data);						
+					}
+				})
+			},
+			initData(res) {
+				let arr = [];
+				for(let i = 0; i < this.topBar.length; i++) {
+					let obj = {
+						data: []
+					}
+					
+					if(i === 0) {
+						obj.data = res.data
+					}
+					
+					arr.push(obj)
+				}
+				return arr;
+			},
 			changeTab(index){
 				if(this.topBarIndex === index){
 					return ;
@@ -108,6 +141,19 @@
 			},
 			onChangeTab(e){
 				this.changeTab(e.detail.current);
+			},
+			//获取可视区域高度【兼容】
+			getClientHeight(){
+				const res = uni.getSystemInfoSync();
+				const system = res.platform;
+				if( system ==='ios' ){
+					return 44+res.statusBarHeight;
+				}else if( system==='android' ){
+					return 48+res.statusBarHeight;
+				}else{
+					return 0;
+				}
+				
 			}
 		}
 	}

@@ -18,7 +18,7 @@
 				v-for='(item,index) in newTopBar'
 				:key='index'
 			>
-				<scroll-view scroll-y="true" :style="'height:'+clentHeight+'px;'">
+				<scroll-view scroll-y="true" :style="'height:'+clentHeight+'px;'"  @scrolltolower='loadMore(index)'>
 					<template v-if="item.data.length>0"> 
 						<block v-for="(itemm,indexx) in item.data" :key="indexx">
 								<IndexSwiper v-if="itemm.type === 'swiperList'" :dataList="itemm.data"></IndexSwiper>
@@ -50,6 +50,9 @@
 					<template v-else>
 						<view>暂无数据...</view>
 					</template>
+					<view class='load-text f-color'>
+						{{item.loadText}}
+					</view>
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -140,7 +143,8 @@
 				for(let i = 0; i < this.topBar.length; i++) {
 					let obj = {
 						data: [],
-						load: 'first'
+						load: 'first',
+						loadText:"上拉加载更多..."
 					}
 					
 					if(i === 0) {
@@ -179,14 +183,17 @@
 				}
 			},
 			//对应显示不同数据
-			addData(){
+			addData(callback){
 				//拿到索引
 				let index = this.topBarIndex;
 				//拿到id
 				let id = this.topBar[index].id;
+				
+				let page = Math.ceil(this.newTopBar[index].data.length / 5) + 1
+				console.log(this.newTopBar[index].data.length,page)
 				//请求不同的数据
 				uni.request({
-					url:'http://192.168.0.100:3000/api/index_list/'+id+'/data/1',
+					url:'http://192.168.0.100:3000/api/index_list/'+id+'/data/'+page,
 					success: (res) => {
 						if(res.statusCode !== 200) {
 							return
@@ -194,10 +201,25 @@
 						let data = res.data.data;
 						// console.log(data)
 						this.newTopBar[index].data = [...this.newTopBar[index].data,...data];
-						this.newTopBar[index].load = 'last';
 					}
 				})
-			}				
+				
+				//当请求结束后，重新赋值
+				this.newTopBar[index].load='last';
+				
+				if(typeof callback==='function'){
+					callback();
+				}
+			},
+			//上拉加载更多
+			loadMore(index){
+				
+				this.newTopBar[index].loadText = '加载中...';
+				//请求完数据 ，文字提示信息又换成【上拉加载更多...】
+				this.addData(()=>{
+					this.newTopBar[index].loadText = '上拉加载更多...';
+				})
+			}
 		}
 	}
 </script>
@@ -216,5 +238,10 @@
 .f-active-color{
 	padding:10rpx 0;
 	border-bottom:6rpx solid #49BDFB;
+}
+.load-text{
+	border-top:2rpx solid #636263;
+	line-height: 60rpx;
+	text-align: center;
 }
 </style>

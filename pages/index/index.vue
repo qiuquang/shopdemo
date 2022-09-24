@@ -79,6 +79,7 @@
 </template>
 
 <script>
+	import $http from '@/common/api/request.js'
 	import IndexSwiper from '@/components/index/IndexSwiper.vue'
 	import Recommend from '@/components/index/Recommend.vue'
 	import Card from '@/components/common/Card.vue'
@@ -129,13 +130,24 @@
 		},
 		methods:{
 			init() {
-				uni.request({
-					url: 'http://192.168.0.100:3000/api/index_list/data',
-					success: (res) => {
-						const data = res.data.data;
-						this.topBar = data.topBar;
-						this.newTopBar = this.initData(data);						
-					}
+				// uni.request({
+				// 	url: 'http://192.168.0.100:3000/api/index_list/data',
+				// 	success: (res) => {
+				// 		const data = res.data.data;
+				// 		this.topBar = data.topBar;
+				// 		this.newTopBar = this.initData(data);						
+				// 	}
+				// })
+				$http.request({
+					url:"/index_list/data"
+				}).then((res)=>{
+					this.topBar = res.topBar;
+					this.newTopBar = this.initData(res);
+				}).catch(()=>{
+					uni.showToast({
+						title:'请求失败',
+						icon:'none'
+					})
 				})
 			},
 			initData(res) {
@@ -190,19 +202,31 @@
 				let id = this.topBar[index].id;
 				
 				let page = Math.ceil(this.newTopBar[index].data.length / 5) + 1
-				console.log(this.newTopBar[index].data.length,page)
-				//请求不同的数据
-				uni.request({
-					url:'http://192.168.0.100:3000/api/index_list/'+id+'/data/'+page,
-					success: (res) => {
-						if(res.statusCode !== 200) {
-							return
-						}
-						let data = res.data.data;
-						// console.log(data)
-						this.newTopBar[index].data = [...this.newTopBar[index].data,...data];
-					}
+				// console.log(this.newTopBar[index].data.length,page)
+				//请求数据
+				$http.request({
+					url:'/index_list/'+id+'/data/'+page+''
+				}).then((res)=>{
+					this.newTopBar[index].data = [...this.newTopBar[index].data,...res];
+				}).catch(()=>{
+					uni.showToast({
+						title:'请求失败',
+						icon:'none'
+					})
 				})
+				
+				//请求不同的数据
+				// uni.request({
+				// 	url:'http://192.168.0.100:3000/api/index_list/'+id+'/data/'+page,
+				// 	success: (res) => {
+				// 		if(res.statusCode !== 200) {
+				// 			return
+				// 		}
+				// 		let data = res.data.data;
+				// 		// console.log(data)
+				// 		this.newTopBar[index].data = [...this.newTopBar[index].data,...data];
+				// 	}
+				// })
 				
 				//当请求结束后，重新赋值
 				this.newTopBar[index].load='last';

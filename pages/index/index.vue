@@ -26,6 +26,24 @@
 									<Recommend :dataList="itemm.data"></Recommend>
 									<Card cardTitle='猜你喜欢'></Card>
 								</template>
+								
+								<Banner v-if='itemm.type==="bannerList"' :dataList='itemm.imgUrl'></Banner>
+															
+								<template v-if='itemm.type==="iconsList"'>
+									<Icons :dataList='itemm.data'></Icons>
+									<Card cardTitle='热销爆品'></Card>
+								</template>
+								
+								<template v-if='itemm.type==="hotList"'>
+									<Hot :dataList='itemm.data'></Hot>
+									<Card cardTitle='推荐店铺'></Card>
+								</template>
+								
+								<template v-if='itemm.type==="shopList"'>
+									<Shop :dataList='itemm.data'></Shop>
+									<Card cardTitle='为您推荐'></Card>
+								</template>
+								
 								<CommodityList v-if="itemm.type === 'commodityList'" :dataList="itemm.data"></CommodityList>
 							</block>
 					</template>
@@ -121,7 +139,8 @@
 				let arr = [];
 				for(let i = 0; i < this.topBar.length; i++) {
 					let obj = {
-						data: []
+						data: [],
+						load: 'first'
 					}
 					
 					if(i === 0) {
@@ -138,6 +157,11 @@
 				}
 				this.topBarIndex = index;
 				this.scrollIntoIndex = 'top'+index;
+				
+				if(this.newTopBar[index].load === 'first') {
+					this.addData();
+				}
+				
 			},
 			onChangeTab(e){
 				this.changeTab(e.detail.current);
@@ -153,8 +177,27 @@
 				}else{
 					return 0;
 				}
-				
-			}
+			},
+			//对应显示不同数据
+			addData(){
+				//拿到索引
+				let index = this.topBarIndex;
+				//拿到id
+				let id = this.topBar[index].id;
+				//请求不同的数据
+				uni.request({
+					url:'http://192.168.0.100:3000/api/index_list/'+id+'/data/1',
+					success: (res) => {
+						if(res.statusCode !== 200) {
+							return
+						}
+						let data = res.data.data;
+						// console.log(data)
+						this.newTopBar[index].data = [...this.newTopBar[index].data,...data];
+						this.newTopBar[index].load = 'last';
+					}
+				})
+			}				
 		}
 	}
 </script>

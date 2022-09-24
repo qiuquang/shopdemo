@@ -6,6 +6,8 @@
 		<CommodityList></CommodityList>
 		<Banner></Banner>
 		<Icons></Icons>
+		<Card cardTitle="热销爆品"></Card>
+		<Hot></Hot>
 	</view>
 </template>
 
@@ -16,9 +18,19 @@
 	import CommodityList from '@/components/common/CommodityList.vue'
 	import Banner from '@/components/index/Banner.vue'
 	import Icons from '@/components/index/Icons.vue'
+	import Hot from '../../components/index/Hot.vue'
+	
 	
 	export default {
-		components: {IndexSwiper, Recommend, Card, CommodityList,Banner,Icons},
+		components: {
+			IndexSwiper, 
+			Recommend, 
+			Card, 
+			CommodityList,
+			Banner,
+			Icons,
+			Hot
+		},
 		data() {
 			return {
 				title: 'Hello'

@@ -2,20 +2,17 @@
 	<view class="index">
 		<IndexSwiper></IndexSwiper>
 		<Recommend></Recommend>
-		<view class="f-active-color">
-			文字
-		</view>
-		<view class="iconfont icon-xiaoxi">
-			消息
-		</view>
+		<Card cardTitle="猜你喜欢"></Card>
 	</view>
 </template>
 
 <script>
 	import IndexSwiper from '@/components/index/IndexSwiper.vue'
 	import Recommend from '@/components/index/Recommend.vue'
+	import Card from '@/components/common/Card.vue'
+	
 	export default {
-		components: {IndexSwiper, Recommend},
+		components: {IndexSwiper, Recommend, Card},
 		data() {
 			return {
 				title: 'Hello'

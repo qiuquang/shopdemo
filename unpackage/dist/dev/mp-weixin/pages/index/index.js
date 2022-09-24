@@ -136,10 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var IndexSwiper = function IndexSwiper() {__webpack_require__.e(/*! require.ensure | components/index/IndexSwiper */ "components/index/IndexSwiper").then((function () {return resolve(__webpack_require__(/*! @/components/index/IndexSwiper.vue */ 43));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Recommend = function Recommend() {__webpack_require__.e(/*! require.ensure | components/index/Recommend */ "components/index/Recommend").then((function () {return resolve(__webpack_require__(/*! @/components/index/Recommend.vue */ 37));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
-
-
-
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var IndexSwiper = function IndexSwiper() {__webpack_require__.e(/*! require.ensure | components/index/IndexSwiper */ "components/index/IndexSwiper").then((function () {return resolve(__webpack_require__(/*! @/components/index/IndexSwiper.vue */ 43));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Recommend = function Recommend() {__webpack_require__.e(/*! require.ensure | components/index/Recommend */ "components/index/Recommend").then((function () {return resolve(__webpack_require__(/*! @/components/index/Recommend.vue */ 37));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var Card = function Card() {__webpack_require__.e(/*! require.ensure | components/common/Card */ "components/common/Card").then((function () {return resolve(__webpack_require__(/*! @/components/common/Card.vue */ 53));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -153,7 +150,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 {
-  components: { IndexSwiper: IndexSwiper, Recommend: Recommend },
+  components: { IndexSwiper: IndexSwiper, Recommend: Recommend, Card: Card },
   data: function data() {
     return {
       title: 'Hello' };

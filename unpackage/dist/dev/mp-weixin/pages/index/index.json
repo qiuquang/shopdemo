@@ -4,6 +4,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "index-swiper": "/components/index/IndexSwiper",
-    "recommend": "/components/index/Recommend"
+    "recommend": "/components/index/Recommend",
+    "card": "/components/common/Card"
   }
 }

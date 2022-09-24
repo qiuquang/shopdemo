@@ -1,1 +1,1 @@
-<view class="index"><index-swiper vue-id="8dd740cc-1" bind:__l="__l"></index-swiper><recommend vue-id="8dd740cc-2" bind:__l="__l"></recommend><view class="f-active-color">文字</view><view class="iconfont icon-xiaoxi">消息</view></view>
+<view class="index"><index-swiper vue-id="8dd740cc-1" bind:__l="__l"></index-swiper><recommend vue-id="8dd740cc-2" bind:__l="__l"></recommend><card vue-id="8dd740cc-3" cardTitle="猜你喜欢" bind:__l="__l"></card></view>

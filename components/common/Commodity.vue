@@ -1,5 +1,5 @@
 <template>
-	<view class='commodity'>
+	<view class='commodity' :style="{flexWrap: wrap}">
 		<!-- 单个商品组件 -->
 		
 		<view class='commodity-item' 
@@ -9,7 +9,7 @@
 		>
 			<image class='commodity-img' :style="{height: bigH}" :src="item.imgUrl" mode=""></image>
 			<view class='commodity-content'>
-				<text class='commodity-name'>{{item.name}}</text>
+				<text :style="{fontSize: nameSize}" class='commodity-name'>{{item.name}}</text>
 				<view>
 					<text class='pprice'>¥{{item.pprice}}</text>
 					<text class='oprice'>¥{{item.oprice}}</text>
@@ -32,6 +32,14 @@ export default {
 		bigH: {
 			type: String,
 			default: '375rpx'
+		},
+		wrap: {
+			type: String,
+			default: 'wrap'
+		},
+		nameSize: {
+			type: String,
+			default: '26rpx'
 		}
 	}
 }
@@ -40,7 +48,6 @@ export default {
 <style scoped>
 .commodity{
 	display: flex;
-	flex-wrap: wrap;
 }
 .commodity-item{
 	padding-bottom:20rpx;

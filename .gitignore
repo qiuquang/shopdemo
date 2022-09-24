@@ -2,3 +2,5 @@ unpackage/
 .hbuilderx/
 .DS_Store
 */.DS_Store
+
+server/node_modules

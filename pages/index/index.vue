@@ -130,7 +130,7 @@
 		},
 		//标题栏按钮点击
 		onNavigationBarButtonTap(e){
-			console.log(e)
+			// console.log(e)
 			if(e.float=='left'){
 				uni.navigateTo({
 					url:'../search/search'

@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import $http from '@/common/api/request.js'
 import Lines from '@/components/common/Lines.vue'
 import CommodityList from './CommodityList.vue'
 export default {
@@ -37,40 +38,7 @@ export default {
 						{name:"品牌",status:0}
 					]
 				},
-				dataList:[
-					{
-						id:1,
-						imgUrl:"../../static/img/commodity1.jpg",
-						name:"大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-						pprice:"299",
-						oprice:"659",
-						discount:"5.2"
-					},
-					{
-						id:2,
-						imgUrl:"../../static/img/commodity2.jpg",
-						name:"大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-						pprice:"299",
-						oprice:"659",
-						discount:"5.2"
-					},
-					{
-						id:3,
-						imgUrl:"../../static/img/commodity3.jpg",
-						name:"大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-						pprice:"299",
-						oprice:"659",
-						discount:"5.2"
-					},
-					{
-						id:4,
-						imgUrl:"../../static/img/commodity4.jpg",
-						name:"大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008大姨绒毛大款2020年必须买,不买你就不行了,爆款疯狂GG008",
-						pprice:"299",
-						oprice:"659",
-						discount:"5.2"
-					}
-				]
+				dataList:[]
 			}
 		},
 		props: {
@@ -82,7 +50,30 @@ export default {
 			Lines,
 			CommodityList
 		},
+		mounted() {
+			this.getData();
+		},
 		methods: {
+			getData() {
+				// console.log(this.keyword)
+				$http.request({
+					url:"/goods/search",
+					data: {
+						name: this.keyword,
+						pprice: "desc"
+					}
+				}).then((res)=>{
+					// console.log(res)
+					this.dataList = res;
+					// this.topBar = res.topBar;
+					// this.newTopBar = this.initData(res);
+				}).catch(()=>{
+					uni.showToast({
+						title:'请求失败',
+						icon:'none'
+					})
+				})
+			},
 			changTab(index){
 				//索引值
 				let idx = this.shopList.currentIndex;

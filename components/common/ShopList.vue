@@ -33,12 +33,21 @@ export default {
 				shopList:{
 				    currentIndex:0,
 					data:[
-						{name:"价格",status:1},
-						{name:"折扣",status:0},
+						{name:"价格",status:1, key: 'pprice'},
+						{name:"折扣",status:0, key: 'discount'},
 						{name:"品牌",status:0}
 					]
 				},
 				dataList:[]
+			}
+		},
+		computed: {
+			orderBy() {
+				let obj = this.shopList.data[this.shopList.currentIndex];
+				let val = obj.status === '1' ? 'desc' : 'asc';
+				return {
+					[obj.key]: val
+				}
 			}
 		},
 		props: {
@@ -60,7 +69,8 @@ export default {
 					url:"/goods/search",
 					data: {
 						name: this.keyword,
-						pprice: "desc"
+						...this.orderBy
+						// pprice: "desc"
 					}
 				}).then((res)=>{
 					// console.log(res)
@@ -75,6 +85,7 @@ export default {
 				})
 			},
 			changTab(index){
+				this.getData()
 				//索引值
 				let idx = this.shopList.currentIndex;
 				//具体哪一个对象
@@ -87,7 +98,6 @@ export default {
 				item.status = 0;
 				this.shopList.currentIndex = index;
 				newItem.status = 1;
-				
 			}
 		}
 	}

@@ -46,7 +46,7 @@ export default {
 	methods: {
 		goDetails(){
 			uni.navigateTo({
-				url:'../../pages/detail/detail'
+				url:'../../pages/details/details'
 			})
 		}
 	}

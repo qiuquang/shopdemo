@@ -1,6 +1,14 @@
 <template>
 	<view class='index'>
+		<!-- #ifdef MP-WEIXIN -->
 		
+		<view class="bar-height">
+			
+		</view>
+		<!-- #endif -->
+		<view class="bar1">
+			234
+		</view>
 		<scroll-view scroll-x="true" class='scroll-content' :scroll-into-view='scrollIntoIndex'>
 			<view
 				:id="'top'+index"
@@ -277,4 +285,17 @@
 	line-height: 60rpx;
 	text-align: center;
 }
+.bar-height{
+	height: var(--status-bar-height);
+}
+.bar1{
+	position: absolute;
+	bottom: var(--window-bottom)
+}
+.bar2{
+	height: var(--window-bottom);
+	background-color: blue;
+	width: 100%;
+}
+
 </style>
